@@ -1,7 +1,17 @@
 import { Observable } from 'rxjs';
-import Keytar from 'keytar';
 
 const debug = require('debug')('hap-client:securestore');
+
+const fs = require('fs');
+class Keytar {
+    getPassword(service, account) {
+        return fs.readFileSync(`password-${account}`, 'utf8');
+    }
+
+    setPassword(service, account, password) {
+        fs.writeFileSync(`password-${account}`, password, 'utf8');
+    }
+}
 
 function loadClient(clientName) {
     return Observable
